@@ -1,0 +1,31 @@
+:root{
+    --navbar-height:60px;
+    
+}
+
+
+
+
+.flex{
+    display: flex;
+}
+
+.justify-center{
+    justify-content: center;
+}
+
+.items-center{
+    align-items: center;
+}
+
+.w-full{
+    width: 100dvw;
+}
+
+.h-full{
+    height: 100dvh;
+}
+
+.flex-col{
+    flex-direction: column;
+}
