@@ -1,0 +1,44 @@
+.signup-wrapper{
+    background-color: var(--background-color);
+}
+.signup-form{
+    width: 90%;
+    max-width: 450px;
+    padding: 1.2rem 2rem;
+    box-shadow: 0 4px 10px var(--border-color);
+    border-radius: 1rem;
+    background-color: var(--surface-color);
+}
+
+.signup-form-container{
+    width: 100%;
+    gap: 1rem;
+}
+
+
+.signup-form-heading{
+ display: flex;
+  gap: 0.8rem;
+  color: var(--heading-color);
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-form-component{
+    width: 100%;
+    gap: 0.5rem;
+}
+
+
+
+.password-icon{
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+  color: var(--muted-text-color);
+}
+
+
+

@@ -1,6 +1,50 @@
-:root{
-    --navbar-height:60px;
-    
+:root {
+  /* === Base Colors === */
+  --background-color: #f8fafc;        /* Light gray background for pages */
+  --surface-color: #ffffff;           /* Card, modal, or section backgrounds */
+  --border-color: #e2e8f0;            /* Light border color */
+  --text-color-primary: #1e293b;      /* Main body and heading text */
+  --text-color-secondary: #475569;    /* Less important text (subtitles, meta) */
+
+  /* === Accent / Brand Colors === */
+  --primary-color: #152340;           /* Blue primary brand color */
+  --primary-color-dark: #1d4ed8;      /* Darker shade for hover/focus */
+  --secondary-color: #f43f5e;         /* Secondary color (e.g., buttons, links) */
+  --secondary-color-dark: #be123c;    /* Darker secondary shade */
+
+  /* === Status Colors === */
+  --success-color: #22c55e;           /* For success messages */
+  --error-color: #ef4444;             /* For error alerts */
+  --warning-color: #f59e0b;           /* For warnings and cautions */
+  --info-color: #0ea5e9;              /* Optional: for general info messages */
+
+  /* === Typography Colors === */
+  --heading-color: #1e293b;           /* For all headings */
+  --body-text-color: #334155;         /* For paragraphs */
+  --muted-text-color: #94a3b8;        /* Disabled or placeholder text */
+
+  /* === Button Colors === */
+  --button-bg-color: var(--primary-color);
+  --button-text-color: #ffffff;
+  --button-hover-bg: var(--primary-color-dark);
+  --button-disabled-bg: #cbd5e1;
+  --button-disabled-text: #94a3b8;
+
+  /* === Card Colors === */
+  --card-bg-color: var(--surface-color);
+  --card-heading-color: var(--heading-color);
+  --card-text-color: var(--body-text-color);
+
+  /* === Form Field Colors === */
+  --input-bg-color: #ffffff;
+  --input-border-color: var(--border-color);
+  --input-focus-border-color: var(--primary-color);
+  --input-placeholder-color: var(--muted-text-color);
+
+  /* === Navbar / Footer === */
+  --navbar-bg-color: #ffffff;
+  --navbar-text-color: var(--text-color-primary);
+  --navbar-brand-color: var(--primary-color);
 }
 
 
@@ -28,4 +72,8 @@
 
 .flex-col{
     flex-direction: column;
+}
+
+.justify-between{
+    justify-content: space-between;
 }
