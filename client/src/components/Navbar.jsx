@@ -28,11 +28,11 @@ const Navbar = () => {
           <Link to="/projects" className='nav-button projects-btn'>
             <span>Projects</span>
           </Link>
-          <Link to="/features" className='nav-button features-btn'>
-            <span>Features</span>
+          <Link to="/insights" className='nav-button features-btn'>
+            <span>Insights</span>
           </Link>
-          <Link to="/contact" className='nav-button contact-btn'>
-            <span>Contact</span>
+          <Link to="/profile" className='nav-button contact-btn'>
+            <span>Profile</span>
           </Link>
         </div>
       </div>
