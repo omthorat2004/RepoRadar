@@ -29,11 +29,18 @@
     gap: 0.5rem;
 }
 
+.paste-text-icon{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted-text-color);
+}
+
 
 
 .password-icon{
   position: absolute;
-  right: 0;
   top: 50%;
   transform: translateY(-50%);
   right: 10px;

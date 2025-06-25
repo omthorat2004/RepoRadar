@@ -1,11 +1,21 @@
+import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 import Email from '@mui/icons-material/Email'
 import LockIcon from '@mui/icons-material/Lock'
 import PersonIcon from '@mui/icons-material/Person'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import VpnKeyIcon from '@mui/icons-material/VpnKey'
-
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import {
+  selectAuthError,
+  selectAuthLoading,
+  selectAuthMessage,
+  selectAuthSuccess,
+  signupUser
+} from '../features/authentication/authenticationSlice'
 import '../styles/signup.css'
 const defaultData = {
   username: '',
@@ -16,20 +26,75 @@ const defaultData = {
 const Signup = () => {
   const [formData, setFormData] = useState(defaultData)
   const [visiblityOn, setVisibilityOn] = useState(false)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const success = useSelector(selectAuthSuccess)
+  const error = useSelector(selectAuthError)
+  const message = useSelector(selectAuthMessage)
+  const loading = useSelector(selectAuthLoading)
 
   const toggleVisibility = () => {
     setVisibilityOn(!visiblityOn)
   }
 
   const handleChange = e => {
+    // console.log('Onchange Function Called..')
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
     }))
   }
 
-  const handleSubmit = e => {
+  const pasteText = async () => {
+    try {
+      const text = await navigator.clipboard.readText()
+      setFormData(prev => ({
+        ...prev,
+        personalAccessToken: text
+      }))
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
+  const fetchGitlabInformation = async () => {
+    const response = await fetch('https://gitlab.com/api/v4/user', {
+      headers: {
+        Authorization: `Bearer ${formData.personalAccessToken}`
+      }
+    })
+
+    if (!response.ok) {
+      throw new Error('Gitlab API Error')
+    }
+    const user = await response.json()
+
+    const gitlab_username = user.username
+    const gitlab_profile_url = user.web_url
+    const avatar_url = user.avatar_url
+    return { gitlab_profile_url, gitlab_username, avatar_url }
+  }
+
+  useEffect(() => {
+    if (success) {
+      toast.success('Signup Successful!')
+      setTimeout(() => {
+        navigate('/login')
+      }, 1000)
+    }
+    if (error) {
+      toast.error(message)
+    }
+  }, [success, error, dispatch, navigate])
+
+  const handleSubmit = async e => {
     e.preventDefault()
+
+    if (formData.personalAccessToken) {
+      const gitlabInfo = await fetchGitlabInformation()
+      dispatch(signupUser({ ...formData, ...gitlabInfo }))
+    }
   }
 
   return (
@@ -49,6 +114,7 @@ const Signup = () => {
                 className='input-field'
                 onChange={handleChange}
                 value={formData.username}
+                name='username'
                 required
               />
             </div>
@@ -60,6 +126,7 @@ const Signup = () => {
                 placeholder='Email'
                 value={formData.email}
                 onChange={handleChange}
+                name='email'
                 required
               />
             </div>
@@ -69,11 +136,14 @@ const Signup = () => {
                 type='text'
                 className='input-field'
                 placeholder='Personal Access Token'
+                name='personalAccessToken'
                 value={formData.personalAccessToken}
                 onChange={handleChange}
                 required
-
               />
+              <span className='paste-text-icon' onClick={pasteText}>
+                <ContentPasteIcon fontSize='medium' />
+              </span>
             </div>
 
             <div className='input-wrapper'>
@@ -82,6 +152,7 @@ const Signup = () => {
                 className='input-field'
                 placeholder='Password'
                 value={formData.password}
+                name='password'
                 onChange={handleChange}
                 type={visiblityOn ? 'text' : 'password'}
               />
