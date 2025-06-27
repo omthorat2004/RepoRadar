@@ -53,6 +53,7 @@ export const loginUser = createAsyncThunk(
       }
 
       const data = await response.json()
+      console.log(data)
       return data
     } catch (error) {
       return thunkApi.rejectWithValue(error.message)
@@ -121,6 +122,7 @@ const authSlice = createSlice({
         state.success = true
         state.token = action.payload.token
         state.user = action.payload.user
+
         localStorage.setItem('token', action.payload.token)
         localStorage.setItem('user', JSON.stringify(action.payload.user))
       })

@@ -1,0 +1,41 @@
+.projects-container{
+    background-color: var(--background-color);
+    width: 100%;
+    padding:1.5rem 2rem;
+}
+
+.projects-content{
+    max-width: 1200px;
+    margin: 0 auto;
+
+
+}
+
+.projects-search-container{
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+    gap: 1rem;
+}
+
+.projects-search-container input{
+    width: 100%;
+    font-size: 1rem;
+    padding:0.7rem 0.5rem;
+    border-radius: 0.7rem;
+    border: solid 1px var(--border-color);
+    padding-left: 2rem;
+}
+
+.projects-search-icon{
+    position: absolute;
+    left: 0.3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted-text-color);
+}
+
+.projects-search-container input:focus{
+    border: solid 1px black;
+    outline: none;
+}

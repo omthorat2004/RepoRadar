@@ -4,6 +4,7 @@
   height: 100vh;
   justify-content: center;
   align-items: center;
+  height: calc(100vh - var(--navbar-height));
   background-color: var(--background-color);
 }
 
@@ -99,6 +100,16 @@
 
 .submit-btn:hover {
   background-color: var(--button-hover-bg);
+  border: var(--button-hover-bg);
 }
 
 
+
+.submit-btn.disabled-btn {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.logout-btn{
+  color: var(--primary-color);
+}

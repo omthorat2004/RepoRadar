@@ -20,7 +20,7 @@ const Login = (req, res) => {
 
         const user = result[0]
         if (!user) {
-          return res.status(401).json({ error: 'Invalid email or password.' })
+          return res.status(401).json({ error: 'User does not exist!' })
         }
 
         const passwordMatch = await bcrypt.compare(password, user.password)
@@ -29,6 +29,7 @@ const Login = (req, res) => {
         }
 
         const token = createToken(user.id)
+        console.log(token)
 
         return res.status(200).json({
           user: {
@@ -54,14 +55,14 @@ const Signup = (req, res) => {
       username,
       email,
       password,
-      personal_access_token,
+      personalAccessToken,
       avatar_url,
       gitlab_username,
       gitlab_profile_url
     } = req.body
 
     connection.query(
-      'search * from gitlab_user where email=?',
+      'select * from gitlab_user where email=?',
       [email],
       async (err, result) => {
         if (err) throw err
@@ -71,7 +72,8 @@ const Signup = (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
-        const encryptedToken = encrypt(personal_access_token)
+        // console.log(req.body)
+        const encryptedToken = encrypt(personalAccessToken)
 
         connection.query(
           'insert into gitlab_user (username,email,password,avatar_url,gitlab_username,gitlab_profile_url,personal_access_token) values (?,?,?,?,?,?,?)',
@@ -105,7 +107,8 @@ const Signup = (req, res) => {
     return res.status(500).json({ error: 'Server Error' })
   }
 }
-const authenticateToken = (req, res, next) => {
+const authenticateToken = (req, res) => {
+  res.set('Cache-Control', 'no-store')
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1] // Bearer <token>
 
@@ -113,7 +116,7 @@ const authenticateToken = (req, res, next) => {
     return res.status(401).json({ error: 'Access token required' })
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, process.env.JSON_KEY, (err, user) => {
     if (err) return res.status(403).json({ error: 'Invalid or expired token' })
 
     res.status(200).json({ message: 'User Validation Successful!' })

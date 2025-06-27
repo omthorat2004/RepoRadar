@@ -11,6 +11,7 @@ const createToken = id => {
   const token = sign({ id }, process.env.JSON_KEY, {
     expiresIn: '3d'
   })
+  return token
 }
 
 const encrypt = text => {

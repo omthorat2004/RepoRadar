@@ -12,6 +12,7 @@ import {
 } from './features/authentication/authenticationSlice'
 import Home from './pages/Home'
 import Login from './pages/Login'
+import Projects from './pages/Projects'
 import Signup from './pages/Signup'
 import PrivateRoute from './PrivateRoute'
 
@@ -63,6 +64,7 @@ function App () {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/' element={<Home />} />
+        <Route path='/projects' element={<Projects />} />
 
         {/* Protected Route */}
         <Route element={<PrivateRoute />}></Route>

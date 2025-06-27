@@ -45,6 +45,9 @@
   --navbar-bg-color: #ffffff;
   --navbar-text-color: var(--text-color-primary);
   --navbar-brand-color: var(--primary-color);
+
+
+  --navbar-height:4.5rem;
 }
 
 

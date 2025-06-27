@@ -59,21 +59,28 @@ const Signup = () => {
   }
 
   const fetchGitlabInformation = async () => {
-    const response = await fetch('https://gitlab.com/api/v4/user', {
-      headers: {
-        Authorization: `Bearer ${formData.personalAccessToken}`
+    try {
+      const response = await fetch('https://gitlab.com/api/v4/user', {
+        headers: {
+          Authorization: `Bearer ${formData.personalAccessToken}`
+        }
+      })
+      console.log('gitlab ')
+
+      if (!response.ok) {
+        const error = await response.json()
+        console.log(error)
+        throw new Error('Gitlab API Error')
       }
-    })
+      const user = await response.json()
 
-    if (!response.ok) {
-      throw new Error('Gitlab API Error')
+      const gitlab_username = user.username
+      const gitlab_profile_url = user.web_url
+      const avatar_url = user.avatar_url
+      return { gitlab_profile_url, gitlab_username, avatar_url }
+    } catch (err) {
+      toast.error('Invalid Personal Access Token')
     }
-    const user = await response.json()
-
-    const gitlab_username = user.username
-    const gitlab_profile_url = user.web_url
-    const avatar_url = user.avatar_url
-    return { gitlab_profile_url, gitlab_username, avatar_url }
   }
 
   useEffect(() => {
@@ -85,6 +92,7 @@ const Signup = () => {
     }
     if (error) {
       toast.error(message)
+      setFormData(defaultData)
     }
   }, [success, error, dispatch, navigate])
 
@@ -93,7 +101,11 @@ const Signup = () => {
 
     if (formData.personalAccessToken) {
       const gitlabInfo = await fetchGitlabInformation()
-      dispatch(signupUser({ ...formData, ...gitlabInfo }))
+      if (gitlabInfo) {
+        dispatch(signupUser({ ...formData, ...gitlabInfo }))
+      } else {
+        toast.error('Personal Access token Error')
+      }
     }
   }
 
